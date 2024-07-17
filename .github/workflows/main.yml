@@ -86,6 +86,7 @@ jobs:
   
     - name: Create Docker Image
       run: |
+        docker build . --file Dockerfile --tag ${{ env.SERVICE_NAME }}
         echo "Docker image is created"
         # echo ${{ secrets.DEMO_MY_SECRET }} > secret.txt
         # echo ${{ secrets.DEMO_GITHUB_TOKEN }} > token.txt
