@@ -122,7 +122,7 @@ jobs:
         echo "Docker image is scanned"
         echo "Twistlock scan completed"
 
-    # Scan Iac with kics
+#     Scan Iac with kics
     - name: Checkmarx DAST Github Action
 #      uses: Checkmarx/dast-github-action@v1.0.0-beta
 #      env:
@@ -134,22 +134,22 @@ jobs:
 #        environment_id: "c608a51a-ec4e-4eef-81c4-a0241737efd7"
 #        fail_on: "HIGH"
 #        verbose: true
-        run: echo "DAST API and web scanning is completed successfully"
+      run: echo "DAST API and web scanning is completed successfully"
         
-      - name: Install oc
-        uses: redhat-actions/openshift-tools-installer@v1
-        with:
-          oc: 4
-      - name: Log in to OpenShift
+    - name: Install oc
+      uses: redhat-actions/openshift-tools-installer@v1
+      with:
+        oc: 4
+    - name: Log in to OpenShift
 #        uses: redhat-actions/oc-login@v1
 #        with:
 #          openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
 #          openshift_token: ${{ env.OPENSHIFT_TOKEN }}
 #          insecure_skip_tls_verify: true
 #          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
-        run: Logined to openshift cluster
-      - name: Get POD
-        run: |
+      run: Logined to openshift cluster
+    - name: Get POD
+      run: |
 #          oc get po -A | grep "<service-you are deploying>" | grep Running
 #          oc rollout latest <service-you are deploying>  -n pharmarun-dev
 #          sleep 10
@@ -157,7 +157,7 @@ jobs:
 #          sleep 60
 #          oc get po -A | grep "<service-you are deploying>" | grep Running -w
 #          sleep 20
-          echo "oc get projects"
-          echo "oc project test"
-          echo "oc get po -A"
-          echo "pods are running successfully"
+         echo "oc get projects"
+         echo "oc project test"
+         echo "oc get po -A"
+         echo "pods are running successfully"
