@@ -16,24 +16,32 @@ jobs:
       with: 
         repository: 'AswinMN-1/test-repo-for-githubactions' 
         token: ${{ secrets.GITHUB_TOKEN }}
-
+    
     - name: code-review
       #uses: actions/setup-python@v4
       #with:
       #  python-version: 3.8
-      permissions:
-        contents: read
-        pull-requests: write
-      steps:
-      - uses: fxchen/code-review@latest
-        with:
-          model: 'gpt-3.5-turbo-16k'
-          openai-key: ${{ secrets.OPENAI_API_KEY }}
-  
+      #permissions:
+      #  contents: read
+      #  pull-requests: write
+      #steps:
+      #- uses: fxchen/code-review@latest
+      #  with:
+      #    model: 'gpt-3.5-turbo-16k'
+      #7    openai-key: ${{ secrets.OPENAI_API_KEY }}
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      
+    - name: Build with Maven
+      run: |
+        mvn -B package --file pom.xml
+
+      
     - name: Coding Standards Check
       run: |
           echo "Code is scanned for the errors"
-
+    
     - name: Static Code Analysis
       run: |
         echo "Static code analysis are done"
