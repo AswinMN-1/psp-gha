@@ -151,13 +151,6 @@ jobs:
 
     - name: Get POD
       run: |
-#          oc get po -A | grep "<service-you are deploying>" | grep Running
-#          oc rollout latest <service-you are deploying>  -n pharmarun-dev
-#          sleep 10
-#          oc get po -A | grep "<service-you are deploying>" | grep Running -w
-#          sleep 60
-#          oc get po -A | grep "<service-you are deploying>" | grep Running -w
-#          sleep 20
         echo "oc get projects"
         echo "oc project test"
         echo "oc get po -A"
