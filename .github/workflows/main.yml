@@ -93,6 +93,7 @@ jobs:
       run: |
         docker build . --file Dockerfile --tag ${{ env.SERVICE_NAME }}
         echo "Docker image is created"
+        docker images ls
         # echo ${{ secrets.DEMO_MY_SECRET }} > secret.txt
         # echo ${{ secrets.DEMO_GITHUB_TOKEN }} > token.txt
         # echo ${{ secrets.DEMO_HOSTNAME }} > hostname.txt
@@ -104,7 +105,13 @@ jobs:
       run: |
         echo "Docker file is pushed to docker registry"
 
-    - name: Scan Docker image for vulneability
+    - name: Scan Docker image for vulneability using Twistlock scan
+    - uses: dequelabs/action-twistlock@main
+        with:
+#          tl-username: ${{ secrets.TWISTLOCK_USERNAME }}
+#          tl-password: ${{ secrets.TWISTLOCK_PASSWORD }}
+#          tl-console-url: https://harbor.dequelabs.com
+          docker-image: ${{ env.SERVICE_NAME }}
       run: |
         echo "Docker image is scanned"
 
