@@ -1,54 +1,91 @@
-name: Python application - main
+name: java application - main
+
 
 on: 
   push:
     branches: 
       - main
-
+      - testcode
+  pull_request:
+    types: [opened, synchronize, reopened]
+    
 jobs:
-  python-demo:
+  java-demo:
     runs-on: ubuntu-latest
+    
 
     steps:
     - name: Checkout repos
       uses: actions/checkout@v3
       with: 
-        repository: 'nitin-2137150/project-python-june-24-niting' 
+        repository: 'AswinMN-1/test-repo-for-githubactions' 
         token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v4
+    
+    - name: Checkout code
+      uses: actions/checkout@v4
       with:
-        python-version: 3.8
-
-    - name: Coding Standards Check
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+         fetch-depth: 0
+     
+    - uses: actions/checkout@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v1
+      with:
+        java-version: 17
+        distribution: 'zulu'
+      
+    - name: Build with Maven and Unit test cases
       run: |
-          echo "Code is scanned for the errors"
-
-    - name: Static Code Analysis
-      run: |
-        echo "Static code analysis are done"
-
-    - name: External Library Vulnerability Analysis
-      run: |
-        echo "Vulnerability scan results are published"
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Build Code
-      run: |
-        echo "Jar file is created"
+        mvn -B package -Dmaven.test.skip --file pom.xml
+        ls -lrt
         
-    - name: Unit Test
+    - name: Ready the springboot artifacts
+      run:  |
+        find -name '*.jar' -executable -type f  -exec zip release.zip {} + #build variable name changes.
+        cd target
+        ls -lrt
+    - name: Upload jars to artifactory 
       run: |
+        echo "successfully update jars to artifactory repo "
+#    - name: Upload the springboot jars 
+#      uses: actions/upload-artifact@v1
+#      with:
+#        name: release
+#        path: ./release.zip
+
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2  
+ 
+    - name: Analyze with Sonarcloud
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AswinMN-1_test-repo-for-githubactions -Dmaven.test.skip
         echo "Testing is completed"
 
+#    - name: Setup branch name
+#      run: |
+#         # Strip git ref prefix from version
+#        echo "::set-env name=BRANCH_NAME::$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')"
+#        echo ${{ env.BRANCH_NAME }}
+  
     - name: Create Docker Image
+      env:
+        NAMESPACE: test
+        SERVICE_NAME: test
+        SERVICE_LOCATION: test/test-service
       run: |
+        echo ${{ env.SERVICE_NAME }}
+        docker build . --file Dockerfile --tag ${{ env.SERVICE_NAME }}
         echo "Docker image is created"
+        docker images
+#        docker tag ${{ env.SERVICE_NAME }} 
         # echo ${{ secrets.DEMO_MY_SECRET }} > secret.txt
         # echo ${{ secrets.DEMO_GITHUB_TOKEN }} > token.txt
         # echo ${{ secrets.DEMO_HOSTNAME }} > hostname.txt
@@ -56,57 +93,65 @@ jobs:
         # docker login -u ${{ secrets.DEMO_HOSTNAME }} -p ${{ secrets.DEMO_GITHUB_TOKEN }}
         # docker push ${{ secrets.DEMO_HOSTNAME }}/python-app:latest
 
-    - name: Push Docker image
-      run: |
-        echo "Docker file is pushed to docker registry"
+#    - name: Push Docker image
+#      run: |
+#        docker login -u ${{ secrets.DOCKER_USER }}1 --password ${{ secrets.DOCKER_PASSWORD }}
+#        echo "Docker file is pushed to docker registry"
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: aswinmn1
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Scan Docker image for vulneability
+    - name: Push Docker images
+      env:
+        SERVICE_NAME: test
+      run: |
+        docker tag ${{ env.SERVICE_NAME }} aswinmn1/${{ env.SERVICE_NAME }}
+        docker push aswinmn1/${{ env.SERVICE_NAME }}
+
+    - name: Scan Docker image for vulneability using Twistlock scan
+ #   - uses: dequelabs/action-twistlock@main
+ #     with:
+ #       tl-username: ${{ secrets.DOCKER_USER }}
+ #       tl-password: ${{ secrets.DOCKER_PASSWORD }}
+  #      tl-console-url: https://hub.docker.io
+  #      docker-image: aswinmn1/${{ env.SERVICE_NAME }}
+  #  - name: Docker scan status
       run: |
         echo "Docker image is scanned"
-
-    - name: Deploy to DEV
-      run: |
-        echo "Deployed to DEV environment"
-        # kubectl apply -f deployment.yaml
-
-    - name: Deploy to ST
-      run: |
-          echo "Deployed to ST environment"
-          # kubectl apply -f deployment.yaml
-
-    - name: Deploy to SIT
-      run: |
-          echo "Deployed to SIT environment"
-          # kubectl apply -f deployment.yaml
-
-    - name: Deploy to UAT
-      run: |
-        echo "Deployed to UAT environment"
-        # kubectl apply -f deployment.yaml
-
-    - name: Validate deployment file
-      run: |
-        echo "Deployment file is validated"  
-      # kubectl apply -f deployment.yaml --dry-run=client 
-
-    - name: Check deployment status
-      run: |
-        echo "Deployment status is ok"
-        # kubectl get deployment
-
-    - name: Check pod status
-      run: |
-        echo "Pod Status is ok"
-        # kubectl get pods
-    
-    - name: Check service status
-      run: |
-        echo "Service is up and running"
-        # kubectl get svc
-
-    - name: Run Twistlock scan
-      run: |
-        echo "Running Twistlock scan"
         echo "Twistlock scan completed"
 
-    
+#     Scan Iac with kics
+    - name: Checkmarx DAST Github Action
+#      uses: Checkmarx/dast-github-action@v1.0.0-beta
+#      env:
+#        CX_APIKEY: ${{ secrets.CX_ONE_API_KEY }}
+#      with:
+#        command: "web"
+#        config: 'zap_config.yaml'
+#        base_url: "localhost.cxast.net"
+#        environment_id: "c608a51a-ec4e-4eef-81c4-a0241737efd7"
+#        fail_on: "HIGH"
+#        verbose: true
+      run: echo "DAST API and web scanning is completed successfully"
+        
+    - name: Install oc
+      uses: redhat-actions/openshift-tools-installer@v1
+      with:
+        oc: 4
+    - name: Log in to OpenShift
+#        uses: redhat-actions/oc-login@v1
+#        with:
+#          openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
+#          openshift_token: ${{ env.OPENSHIFT_TOKEN }}
+#          insecure_skip_tls_verify: true
+#          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+      run: echo "Login  to openshift cluster"
+
+    - name: Get POD
+      run: |
+        echo "oc get projects"
+        echo "oc project test"
+        echo "oc get po -A"
+        echo "pods are running successfully"
