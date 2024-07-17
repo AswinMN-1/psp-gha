@@ -77,7 +77,7 @@ jobs:
       run: |
         mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AswinMN-1_test-repo-for-githubactions -Dmaven.test.skip
         echo "Testing is completed"
-
+        
     - name: Setup branch name
       run: |
          # Strip git ref prefix from version
