@@ -1,0 +1,12 @@
+name: 'My Docker Action'
+description: 'A custom action for Docker'
+inputs:
+  input1:
+    description: 'nitin-2137150'
+    required: true
+    default: 'World'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ input.name }}

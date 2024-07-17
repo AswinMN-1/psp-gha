@@ -1,0 +1,14 @@
+name: Docker action
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run docker action
+      uses: ./.github/actions/my-docker-action
+      with:
+        name: 'GitHub User'
