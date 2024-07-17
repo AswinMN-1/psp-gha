@@ -108,11 +108,11 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKERHUB_USER}}
+        username: aswinmn1
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Push Docker images
-      run: docker push ${{ secrets.DOCKERHUB_USER}}/${{ env.SERVICE_NAME }}
+      run: docker push aswinmn1/${{ env.SERVICE_NAME }}
 
     - name: Scan Docker image for vulneability using Twistlock scan
 #    - uses: dequelabs/action-twistlock@main
