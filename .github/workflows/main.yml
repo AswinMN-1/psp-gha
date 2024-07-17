@@ -111,6 +111,11 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Push Docker image
+      run: |
+        docker login -u ${{ secrets.DOCKER_USER }}1 --password-stdin
+        echo "Docker file is pushed to docker registry"
+
     - name: Push Docker images
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}
 
