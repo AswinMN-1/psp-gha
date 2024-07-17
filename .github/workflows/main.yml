@@ -122,11 +122,11 @@ jobs:
 
     - name: Scan Docker image for vulneability using Twistlock scan
     - uses: dequelabs/action-twistlock@main
-        with:
-          tl-username: ${{ secrets.DOCKER_USER }}
-          tl-password: ${{ secrets.DOCKER_PASSWORD }}
-          tl-console-url: https://hub.docker.io
-          docker-image: aswinmn1/${{ env.SERVICE_NAME }}
+      with:
+        tl-username: ${{ secrets.DOCKER_USER }}
+        tl-password: ${{ secrets.DOCKER_PASSWORD }}
+        tl-console-url: https://hub.docker.io
+        docker-image: aswinmn1/${{ env.SERVICE_NAME }}
       run: |
         echo "Docker image is scanned"
 
