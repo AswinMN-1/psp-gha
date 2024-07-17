@@ -148,7 +148,7 @@ jobs:
 #          insecure_skip_tls_verify: true
 #          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
       run: echo "Login  to openshift cluster"
-      
+
     - name: Get POD
       run: |
 #          oc get po -A | grep "<service-you are deploying>" | grep Running
