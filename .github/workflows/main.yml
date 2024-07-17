@@ -103,11 +103,13 @@ jobs:
 
     - name: Push Docker image
       run: |
+        docker login -u aswinmn1 --password-stdin
         echo "Docker file is pushed to docker registry"
+
 
     - name: Scan Docker image for vulneability using Twistlock scan
     - uses: dequelabs/action-twistlock@main
-        with:
+#        with:
 #          tl-username: ${{ secrets.TWISTLOCK_USERNAME }}
 #          tl-password: ${{ secrets.TWISTLOCK_PASSWORD }}
 #          tl-console-url: https://harbor.dequelabs.com
