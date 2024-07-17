@@ -38,7 +38,7 @@ jobs:
       
     - name: Build with Maven
       run: |
-        mvn -B package -Dmaven.test.skip
+        mvn -B package -Dmaven.test.skip --file pom.xml
         ls -lrt
         
     - name: Ready the springboot artifacts
