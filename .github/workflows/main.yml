@@ -1,19 +1,20 @@
-name: Python application - main
+name: java application - main
 
 on: 
   push:
     branches: 
       - main
+      - testcode
 
 jobs:
-  python-demo:
+  java-demo:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repos
       uses: actions/checkout@v3
       with: 
-        repository: 'nitin-2137150/project-python-june-24-niting' 
+        repository: 'AswinMN-1/test-repo-for-githubactions' 
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up Python 3.8
