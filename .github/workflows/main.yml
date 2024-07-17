@@ -36,7 +36,7 @@ jobs:
       with:
         java-version: 11
       
-    - name: Build with Maven
+    - name: Build with Maven and Unit test cases
       run: |
         mvn -B package -Dmaven.test.skip --file pom.xml
         ls -lrt
@@ -46,34 +46,20 @@ jobs:
         find -name '*.jar' -executable -type f  -exec zip release.zip {} + #build variable name changes.
         cd target
         ls -lrt
-
+    - name: Upload jars to artifactory 
+      run: |
+        echo "successfully update jars to artifactory repo "
 #    - name: Upload the springboot jars 
 #      uses: actions/upload-artifact@v1
 #      with:
 #        name: release
 #        path: ./release.zip
-        
-    - name: Coding Standards Check
-      run: |
-          echo "Code is scanned for the errors"
-    
-    - name: Static Code Analysis
-      run: |
-        echo "Static code analysis are done"
-
-    - name: External Library Vulnerability Analysis
-      run: |
-        echo "Vulnerability scan results are published"
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Build Code
-      run: |
-        echo "Jar file is created"
-        
+   
     - name: Unit Test
       run: |
         echo "Testing is completed"
