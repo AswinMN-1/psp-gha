@@ -79,7 +79,7 @@ jobs:
         echo "Testing is completed"
 
     - name: Setup branch name
-       run: |
+      run: |
          # Strip git ref prefix from version
         echo "::set-env name=BRANCH_NAME::$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')"
         echo ${{ env.BRANCH_NAME }}
