@@ -94,7 +94,7 @@ jobs:
         echo ${{ env.SERVICE_NAME }}
         docker build . --file Dockerfile --tag ${{ env.SERVICE_NAME }}
         echo "Docker image is created"
-        docker images 
+        docker image ls
         # echo ${{ secrets.DEMO_MY_SECRET }} > secret.txt
         # echo ${{ secrets.DEMO_GITHUB_TOKEN }} > token.txt
         # echo ${{ secrets.DEMO_HOSTNAME }} > hostname.txt
@@ -113,6 +113,8 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Push Docker images
+      env:
+        SERVICE_NAME: test
       run: docker push aswinmn1/${{ env.SERVICE_NAME }}
 
     - name: Scan Docker image for vulneability using Twistlock scan
