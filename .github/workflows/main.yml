@@ -101,11 +101,18 @@ jobs:
         # docker login -u ${{ secrets.DEMO_HOSTNAME }} -p ${{ secrets.DEMO_GITHUB_TOKEN }}
         # docker push ${{ secrets.DEMO_HOSTNAME }}/python-app:latest
 
-    - name: Push Docker image
-      run: |
-        docker login -u ${{ secrets.DOCKER_USER }}1 --password ${{ secrets.DOCKER_PASSWORD }}
-        echo "Docker file is pushed to docker registry"
+#    - name: Push Docker image
+#      run: |
+#        docker login -u ${{ secrets.DOCKER_USER }}1 --password ${{ secrets.DOCKER_PASSWORD }}
+#        echo "Docker file is pushed to docker registry"
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Push Docker images
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.SERVICE_NAME }}
 
     - name: Scan Docker image for vulneability using Twistlock scan
 #    - uses: dequelabs/action-twistlock@main
