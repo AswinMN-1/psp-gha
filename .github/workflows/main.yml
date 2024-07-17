@@ -93,7 +93,7 @@ jobs:
       run: |
         docker build . --file Dockerfile --tag ${{ env.SERVICE_NAME }}
         echo "Docker image is created"
-        docker images ls
+        docker images 
         # echo ${{ secrets.DEMO_MY_SECRET }} > secret.txt
         # echo ${{ secrets.DEMO_GITHUB_TOKEN }} > token.txt
         # echo ${{ secrets.DEMO_HOSTNAME }} > hostname.txt
@@ -103,7 +103,7 @@ jobs:
 
     - name: Push Docker image
       run: |
-        docker login -u aswinmn1 --password-stdin
+        docker login -u ${{ secrets.DOCKER_USER }}1 --password ${{ secrets.DOCKER_PASSWORD }}
         echo "Docker file is pushed to docker registry"
 
 
