@@ -39,15 +39,16 @@ jobs:
     - name: Build with Maven
       run: |
         mvn -B package -Dmaven.test.skip
+        ls -lrt
         
     - name: Ready the springboot artifacts
       run: find -name '*.jar' -executable -type f  -exec zip release.zip {} + #build variable name changes.
 
-    - name: Upload the springboot jars 
-      uses: actions/upload-artifact@v1
-      with:
-        name: release
-        path: ./release.zip
+#    - name: Upload the springboot jars 
+#      uses: actions/upload-artifact@v1
+#      with:
+#        name: release
+#        path: ./release.zip
         
     - name: Coding Standards Check
       run: |
