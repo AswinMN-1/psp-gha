@@ -127,6 +127,7 @@ jobs:
         tl-password: ${{ secrets.DOCKER_PASSWORD }}
         tl-console-url: https://hub.docker.io
         docker-image: aswinmn1/${{ env.SERVICE_NAME }}
+    - name: Docker scan status
       run: |
         echo "Docker image is scanned"
 
