@@ -121,7 +121,7 @@ jobs:
       run: |
         echo "Docker image is scanned"
         echo "Twistlock scan completed"
-        - uses: actions/checkout@v3
+
     # Scan Iac with kics
     - name: Checkmarx DAST Github Action
 #      uses: Checkmarx/dast-github-action@v1.0.0-beta
