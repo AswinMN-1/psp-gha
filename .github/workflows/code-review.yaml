@@ -1,5 +1,5 @@
 ---
-name: Lint
+name: Lint code review
 
 on:  # yamllint disable-line rule:truthy
   push: null
