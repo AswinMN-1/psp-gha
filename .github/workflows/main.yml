@@ -158,7 +158,7 @@ jobs:
 #          sleep 60
 #          oc get po -A | grep "<service-you are deploying>" | grep Running -w
 #          sleep 20
-         echo "oc get projects"
-         echo "oc project test"
-         echo "oc get po -A"
-         echo "pods are running successfully"
+        echo "oc get projects"
+        echo "oc project test"
+        echo "oc get po -A"
+        echo "pods are running successfully"
