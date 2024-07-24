@@ -2,10 +2,10 @@ name: java application - main
 
 
 on: 
-  push:
-    branches: 
-      - main
-      - testcode
+#  push:
+#    branches: 
+#      - main
+#      - testcode
   pull_request:
     types: [submitted]
     
