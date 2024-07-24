@@ -1,16 +1,15 @@
-name: java application - Junit-tests
+name: java application Junit-tests
 
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - main
       - testcode
   pull_request:
     types: [submitted]
     branches:
       - main
-
     
 jobs:
   java-demo:
@@ -20,9 +19,8 @@ jobs:
     - name: Checkout repos
       uses: actions/checkout@v3
       with: 
-        repository: 'AswinMN-1/psp-gha' 
-        token: ${{ secrets.GITHUB_TOKEN }}
-    
+        repository: 'AswinMN-1/psp-gha'
+        token: ${{ secrets.GITHUB_TOKEN }}   
     - name: Checkout code
       uses: actions/checkout@v4
       with:
