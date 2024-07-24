@@ -22,12 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
-      - name: Yaml Lint
-        uses: kapost/yaml-linter@v1
-#        env:
-#          CUSTOM_CONFIG: custom-yaml.yml 
-#          TARGET_DIRECTORY: ./my-directory 
-
+      - uses: actions/checkout@v3
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+        
       - name: Checkout
         uses: actions/checkout@v4
       - name: Download schema
