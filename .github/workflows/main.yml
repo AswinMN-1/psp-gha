@@ -5,7 +5,7 @@ on:
   push:
     branches: 
       - main
-#      - testcode
+      - testcode
   pull_request:
     types: [submitted]
     branches:
