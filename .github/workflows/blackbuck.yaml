@@ -3,7 +3,7 @@ name: Black Duck Report
 on:
   pull_request:
     branches:
-      - *
+      - main
 
 jobs:
   blackduck_scan:
