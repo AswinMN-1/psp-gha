@@ -1,0 +1,23 @@
+---
+name: Lint code review
+
+on:  # yamllint disable-line rule:truthy
+  push: null
+  pull_request: null
+
+permissions: { }
+
+jobs:
+  lint_docker_file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: lint docker file
+        uses: rusty-actions/dockerfile-linter@v1
+        with:
+          dockerfile: ./Dockerfile
+  xmllint:
+    stage: linting
+    image: registry.gitlab.com/pipeline-components/xmllint:latest
+    script:
+      - find . -iname "*.xml" -type f -exec xmllint --noout {} \+
+  
