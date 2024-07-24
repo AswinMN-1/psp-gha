@@ -39,6 +39,7 @@ jobs:
       run: |
         mvn -B package -Dmaven.test.skip --file pom.xml
         ls -lrt
+        ls -lrt target
 
     - name: Upload test results
       uses: actions/upload-artifact@v3
