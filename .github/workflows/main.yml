@@ -6,7 +6,7 @@ on:
     branches: 
       - main
       - testcode
-      - psp-tes
+      - psp-test
   pull_request:
     types: [submitted]
     branches:
