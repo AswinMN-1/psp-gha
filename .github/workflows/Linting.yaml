@@ -27,17 +27,17 @@ jobs:
       - name: Yaml Lint
         uses: kapost/yaml-linter@v1
 #        env:
-#          CUSTOM_CONFIG: custom-yaml.yml # <-- Optional
-#          TARGET_DIRECTORY: ./my-directory # <-- Optional
+#          CUSTOM_CONFIG: custom-yaml.yml 
+#          TARGET_DIRECTORY: ./my-directory 
 
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Download schema
-      run: wget https://apps.nextcloud.com/schema/apps/info.xsd
-    - name: Enable annotations for validation errors and warnings
-      uses: korelstar/xmllint-problem-matcher@v1
-    - name: Validate info.xml using XML schema info.xsd
-      uses: ChristophWurst/xmllint-action@v1
-      with:
-        xml-file: ./appinfo/info.xml
-        xml-schema-file: ./info.xsd
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Download schema
+        run: wget https://apps.nextcloud.com/schema/apps/info.xsd
+      - name: Enable annotations for validation errors and warnings
+        uses: korelstar/xmllint-problem-matcher@v1
+      - name: Validate info.xml using XML schema info.xsd
+        uses: ChristophWurst/xmllint-action@v1
+        with:
+          xml-file: ./appinfo/info.xml
+          xml-schema-file: ./info.xsd
