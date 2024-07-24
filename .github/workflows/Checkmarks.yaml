@@ -1,0 +1,39 @@
+name: Checkmarx Scan
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+      - testcode
+
+jobs:
+  checkmarx:
+    name: Run Checkmarx Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Checkmarx CLI
+      run: |
+        curl -L https://example.com/path/to/checkmarx-cli -o checkmarx-cli.tar.gz
+        file checkmarx-cli.tar.gz  # Check the file type
+        tar -xzvf checkmarx-cli.tar.gz  # Adjust extraction method if needed
+        sudo mv checkmarx-cli /usr/local/bin/
+      env:
+        CHECKMARX_API_TOKEN: ${{ secrets.CHECKMARX_API_TOKEN }}
+        CHECKMARX_URL: ${{ secrets.CHECKMARX_URL }}
+
+    - name: Run Checkmarx Scan
+      run: |
+        checkmarx scan --url ${{ secrets.CHECKMARX_URL }} --token ${{ secrets.CHECKMARX_API_TOKEN }} --project "nmg-project"
+
+    - name: Post PR Comment
+      run: |
+        echo "Checkmarx scan completed. Check the details for any issues." > result.txt
+        gh pr comment ${{ github.event.pull_request.number }} --body "$(cat result.txt)"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

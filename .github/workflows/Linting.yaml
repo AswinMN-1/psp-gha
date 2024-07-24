@@ -11,15 +11,14 @@ jobs:
   lint_docker_file:
     runs-on: ubuntu-latest
     steps:
-      - name: lint docker file
-        uses: rusty-actions/dockerfile-linter@v1
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: lint
+        uses: luke142367/Docker-Lint-Action@v1.0.0
         with:
-          dockerfile: Dockerfile
-#  xmllint:
-#    stage: linting
-#    image: registry.gitlab.com/pipeline-components/xmllint:latest
-#    script:
-#      - find . -iname "*.xml" -type f -exec xmllint --noout {} \+
+          target: Dockerfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout
         uses: actions/checkout@v2
