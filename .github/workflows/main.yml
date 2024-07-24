@@ -40,6 +40,10 @@ jobs:
         mvn -B package -Dmaven.test.skip --file pom.xml
         ls -lrt
         ls -lrt target
+        
+    - name: Generate JUnit test report
+      run: | 
+        echo "mvn junit report"
 
     - name: Upload test results
       uses: actions/upload-artifact@v3
