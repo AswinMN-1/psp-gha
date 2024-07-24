@@ -39,6 +39,6 @@ jobs:
         ls -lrt
         cat result.txt
         chmod 775 result.txt
-        gh pr comment ${{ github.event.pull_request.number }} --body "$(cat result.txt)"
+#        gh pr comment ${{ github.event.pull_request.number }} --body "$(cat result.txt)"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
