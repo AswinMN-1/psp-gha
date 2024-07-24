@@ -6,8 +6,10 @@ on:
     branches: 
       - main
       - testcode
- # pull_request:
- #   types: [opened, synchronize, reopened]
+  pull_request:
+    types: [closed]
+    branches:
+      - master
     
 jobs:
   java-demo:
