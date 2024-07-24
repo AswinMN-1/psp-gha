@@ -5,17 +5,17 @@ on:
   push:
     branches: 
       - main
-      - testcode
+#      - testcode
   pull_request:
-    types: [closed]
+    types: [submitted]
     branches:
-      - master
+      - main
+
     
 jobs:
   java-demo:
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
-    
-
     steps:
     - name: Checkout repos
       uses: actions/checkout@v3
