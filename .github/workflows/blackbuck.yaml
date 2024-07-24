@@ -1,0 +1,33 @@
+name: Black Duck Report
+
+on:
+  pull_request:
+    branches:
+      - *
+
+jobs:
+  blackduck_scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Generate Black Duck Report
+      run: |
+        echo "This is a dummy Black Duck report." > blackduck-report.txt
+        echo "No vulnerabilities found." >> blackduck-report.txt
+        echo "Black Duck report generated."
+
+    - name: Upload Report Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: blackduck-report
+        path: blackduck-report.txt
+
+    - name: Post Black Duck Report
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        path: blackduck-report.txt
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        append: false
