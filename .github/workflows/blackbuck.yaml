@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - testcode
 
 jobs:
   blackduck_scan:
