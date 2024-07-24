@@ -2,12 +2,15 @@ name: java application - main
 
 
 on: 
-#  push:
-#    branches: 
-#      - main
+  push:
+    branches: 
+      - main
 #      - testcode
   pull_request:
     types: [submitted]
+    branches:
+      - main
+
     
 jobs:
   java-demo:
@@ -36,9 +39,23 @@ jobs:
       
     - name: Build with Maven and Unit test cases
       run: |
-        mvn -B package -Dmaven.test.skip --file pom.xml
+        mvn -B package --file pom.xml -Dmaven.test.failure.ignore=true
         ls -lrt
-        
+        ls -lrt target
+
+    - name: Generate JUnit test report
+      run: | 
+        echo "mvn junit report"
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: target/surefire-reports/  
+
+    - name: Display test results
+      run: cat target/surefire-reports/*.xml
+
     - name: Ready the springboot artifacts
       run:  |
         find -name '*.jar' -executable -type f  -exec zip release.zip {} + #build variable name changes.
@@ -68,6 +85,15 @@ jobs:
         mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AswinMN-1_test-repo-for-githubactions -Dmaven.test.skip
         echo "Testing is completed"
 
+    - name: Upload sonarqube code coverage report
+      uses: codecov/codecov-action@v3
+      with:
+        files: build/report/jacoco/test/TestCoverage.xml
+        token: $ {{ secrets.SONAR_TOKEN }}
+
+    - name: Display code coverage summary
+      run: |
+        echo "Code coverage: $COVERAGE"
 #    - name: Setup branch name
 #      run: |
 #         # Strip git ref prefix from version

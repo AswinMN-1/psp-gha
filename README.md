@@ -7,3 +7,5 @@ I have created my own sonarcloud docker hub with below details:
 sonaruel : https://sonarcloud.io/projects
 
 dockerurl: https://hub.docker.com/repositories/aswinmn1
+
+done the changes in .github
