@@ -4,7 +4,6 @@ name: java application - main
 on: 
   push:
     branches: 
-      - main
       - testcode
   pull_request:
     types: [submitted]
@@ -37,30 +36,25 @@ jobs:
         java-version: 17
         distribution: 'zulu'
       
-    - name: Build with Maven and Unit test cases
+    - name: Build with Maven 
       run: |
         mvn -B package --file pom.xml -Dmaven.test.failure.ignore=true
         ls -lrt
         ls -lrt target
 
-    - name: Generate JUnit test report
+    - name: Generate JUnit psp-gha report
       run: | 
         echo "mvn junit report"
 
-    - name: Upload test results
+    - name: Upload psp-gha results
       uses: actions/upload-artifact@v3
       with:
         name: test-results
         path: target/surefire-reports/  
 
-    - name: Display test results
+    - name: Display psp-gha test results
       run: cat target/surefire-reports/*.xml
 
-    - name: Ready the springboot artifacts
-      run:  |
-        find -name '*.jar' -executable -type f  -exec zip release.zip {} + #build variable name changes.
-        cd target
-        ls -lrt
     - name: Upload jars to artifactory 
       run: |
         echo "successfully update jars to artifactory repo "
@@ -102,9 +96,9 @@ jobs:
   
     - name: Create Docker Image
       env:
-        NAMESPACE: test
-        SERVICE_NAME: test
-        SERVICE_LOCATION: test/test-service
+        NAMESPACE: psp-gha
+        SERVICE_NAME: psp-gha
+        SERVICE_LOCATION: psp-gha/psp-gha
       run: |
         echo ${{ env.SERVICE_NAME }}
         docker build . --file Dockerfile --tag ${{ env.SERVICE_NAME }}
@@ -130,7 +124,7 @@ jobs:
 
     - name: Push Docker images
       env:
-        SERVICE_NAME: test
+        SERVICE_NAME: psp-gha
       run: |
         docker tag ${{ env.SERVICE_NAME }} aswinmn1/${{ env.SERVICE_NAME }}
         docker push aswinmn1/${{ env.SERVICE_NAME }}
