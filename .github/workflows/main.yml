@@ -7,13 +7,12 @@ on:
       - main
       - testcode
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [submitted]
     
 jobs:
   java-demo:
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
-    
-
     steps:
     - name: Checkout repos
       uses: actions/checkout@v3
