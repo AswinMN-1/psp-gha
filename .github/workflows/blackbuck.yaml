@@ -25,11 +25,6 @@ jobs:
       with:
         name: blackduck-report
         path: blackduck-report.txt
-        
-    - name: check report
-      run: |
-        echo "checking report"
-        ls -lrt
 
     - name: Post Black Duck Report
       uses: marocchino/sticky-pull-request-comment@v2
@@ -37,3 +32,4 @@ jobs:
         path: blackduck-report.txt
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         append: false
+        
