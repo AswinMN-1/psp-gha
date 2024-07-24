@@ -37,7 +37,7 @@ jobs:
       run: |
         echo "Checkmarx scan completed. Check the details for any issues." > result.txt
         ls -lrt
-        cat results.txt
+        cat result.txt
         gh pr comment ${{ github.event.pull_request.number }} --body "$(cat result.txt)"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

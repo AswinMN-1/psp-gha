@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2      
       - name: yaml-lint
 #        uses: ibiqlik/action-yamllint@v3
-        run: echo "ymal lint successful"
+        run: echo "ymal lint"
       - name: Checkout
         uses: actions/checkout@v4
       - name: Download schema
