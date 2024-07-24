@@ -37,10 +37,10 @@ jobs:
       
     - name: Build with Maven and Unit test cases
       run: |
-        mvn -B package -Dmaven.test.skip --file pom.xml
+        mvn -B package --file pom.xml
         ls -lrt
         ls -lrt target
-        
+
     - name: Generate JUnit test report
       run: | 
         echo "mvn junit report"
