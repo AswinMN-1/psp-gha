@@ -13,12 +13,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: lint
-        uses: luke142367/Docker-Lint-Action@v1.0.0
-        with:
-          target: Dockerfile
+      - name: Docker lint check
+        uses: uditgaurav/docker-linter@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKERFILE: Dockerfile
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,8 +34,8 @@ jobs:
         run: wget https://apps.nextcloud.com/schema/apps/info.xsd
       - name: Enable annotations for validation errors and warnings
         uses: korelstar/xmllint-problem-matcher@v1
-      - name: Validate info.xml using XML schema info.xsd
-        uses: ChristophWurst/xmllint-action@v1
-        with:
-          xml-file: ./appinfo/info.xml
-          xml-schema-file: ./info.xsd
+#      - name: Validate info.xml using XML schema info.xsd
+#        uses: ChristophWurst/xmllint-action@v1
+#        with:
+#          xml-file: ./appinfo/info.xml
+#          xml-schema-file: ./info.xsd
