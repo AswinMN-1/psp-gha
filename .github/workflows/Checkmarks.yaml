@@ -32,10 +32,13 @@ jobs:
 #        checkmarx scan --url ${{ secrets.CHECKMARX_URL }} --token ${{ secrets.CHECKMARX_API_TOKEN }} --project "nmg-project"
     - name: Checkmarx CLI Installation
       run: echo  "installation of checkmarx is successfull"
-       
+
     - name: Post PR Comment
       run: |
         echo "Checkmarx scan completed. Check the details for any issues." > result.txt
-        gh pr comment ${{ github.event.pull_request.number }} --body "$(cat result.txt)"
+        ls -lrt
+        cat result.txt
+        chmod 775 result.txt
+#        gh pr comment ${{ github.event.pull_request.number }} --body "$(cat result.txt)"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

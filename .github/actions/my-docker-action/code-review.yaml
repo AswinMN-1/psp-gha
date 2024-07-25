@@ -8,15 +8,26 @@ on:  # yamllint disable-line rule:truthy
 permissions: { }
 
 jobs:
-  lint_docker_file:
+  build:
+    name: Lint
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+
     steps:
-      - name: lint docker file
-        uses: rusty-actions/dockerfile-linter@v1
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          dockerfile: ./Dockerfile
-  xmllint:
-    stage: linting
-    image: registry.gitlab.com/pipeline-components/xmllint:latest
-    script:
-      - find . -iname "*.xml" -type f -exec xmllint --noout {} \+
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v6.7.0  # x-release-please-version
+        env:
+          # To report GitHub Actions status checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
