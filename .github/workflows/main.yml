@@ -14,7 +14,7 @@ on:
 
     
 jobs:
-  java-demo:
+  psp-java:
 #    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
@@ -48,10 +48,10 @@ jobs:
       run: | 
         echo "mvn junit report"
 
-    - name: Upload test results
+    - name: Upload psp test results
       uses: actions/upload-artifact@v3
       with:
-        name: test-results
+        name: psp-test-results
         path: target/surefire-reports/  
 
     - name: Display test results
