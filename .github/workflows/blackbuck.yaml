@@ -4,9 +4,13 @@ on:
 #  pull_request:
 #    branches:
 #      - main
+  pull_request:
+    types: [opened, synchronize, reopened]  
   push:
     branches:
       - testcode
+      - psp-test
+      - main
 
 jobs:
   blackduck_scan:
