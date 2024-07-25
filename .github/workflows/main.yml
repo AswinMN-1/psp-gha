@@ -5,6 +5,7 @@ on:
   push:
     branches: 
       - testcode
+      - psp-test
   pull_request:
     types: [submitted]
     branches:
@@ -12,7 +13,7 @@ on:
 
     
 jobs:
-  java-demo:
+  psp-java:
 #    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
@@ -49,7 +50,7 @@ jobs:
     - name: Upload psp-gha results
       uses: actions/upload-artifact@v3
       with:
-        name: test-results
+        name: psp-test-results
         path: target/surefire-reports/  
 
     - name: Display psp-gha test results
