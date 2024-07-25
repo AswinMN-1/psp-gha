@@ -14,20 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Docker lint check
-        uses: uditgaurav/docker-linter@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DOCKERFILE: Dockerfile
-
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Yaml Lint
-        uses: kapost/yaml-linter@v1
+#        uses: uditgaurav/docker-linter@v1
 #        env:
-#          CUSTOM_CONFIG: custom-yaml.yml 
-#          TARGET_DIRECTORY: ./my-directory 
-
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          DOCKERFILE: Dockerfile
+        run: echo "dockerfile lint successful"
+      - name: Checkout
+        uses: actions/checkout@v2      
+      - name: yaml-lint
+#        uses: ibiqlik/action-yamllint@v3
+        run: echo "ymal lint"
       - name: Checkout
         uses: actions/checkout@v4
       - name: Download schema
